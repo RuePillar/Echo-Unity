@@ -1,0 +1,211 @@
+﻿{"inkVersion":21,"root":[[["done",{"#f":5,"#n":"g-0"}],null],"done",{"#f":1}],"listDefs":{}}
+VAR evidence_murder = false
+VAR evidence_accident = false
+VAR evidence_suicide = false
+VAR ethics_bypassed = false
+VAR witness_james_credible = false
+VAR witness_sarah_believable = false
+
+=== case1_start ===
+You arrive at the Neo-Tokyo corporate plaza. Rain slicks the chrome surfaces.
+A young man's body lies surrounded by police drones.
+
+CAPTAIN REYES: "Echo Agent. About time. We've got a protester dead - Alex Chen, 24."
+CAPTAIN REYES: "Corporate security says it was an accident. The crowd says otherwise."
+CAPTAIN REYES: "Scan what you need, but be careful. This area's politically charged."
+
++ [Scan the victim's echo] -> scan_victim
++ [Talk to Captain Reyes] -> talk_reyes
++ [Examine the scene physically] -> examine_scene
+
+=== scan_victim ===
+You activate your echo scanner. The device hums as it syncs with the residual neural energy...
+
+ALEX (ECHO): "I can't believe the turnout... so many people against the neural regulations..."
+ALEX (ECHO): "Wait, why is security pushing so hard? We're peaceful!"
+ALEX (ECHO): "Someone's shoving from behind—I'm losing balance—the railing—"
+*STATIC*
+
+The echo cuts off at the critical moment. What did you perceive?
+
++ [The push felt intentional] -> murder_interpretation
++ [He simply lost his balance] -> accident_interpretation
++ [There was hesitation... almost like he jumped] -> suicide_interpretation
+
+=== murder_interpretation ===
+You set evidence_murder = true.
+The memory suggests foul play. Someone wanted him gone.
+-> interview_witnesses
+
+=== accident_interpretation ===
+You set evidence_accident = true.
+It reads like a tragic accident in the chaos of the protest.
+-> interview_witnesses
+
+=== suicide_interpretation ===
+You set evidence_suicide = true.
+An unusual reading, but the data suggests possible self-termination intent.
+-> interview_witnesses
+
+=== talk_reyes ===
+CAPTAIN REYES: "Look, I'll be straight with you. Corporate wants this wrapped up clean."
+CAPTAIN REYES: "But if there was foul play... we need to know. What's your take?"
+
++ [This feels like a cover-up] -> reyes_coverup
++ [I need to examine the evidence first] -> examine_evidence
++ [The victim's echo might tell us more] -> scan_victim
+
+=== reyes_coverup ===
+CAPTAIN REYES: "Careful with accusations, Agent. Without proof, that kind of talk gets people transferred."
+-> scan_victim
+
+=== examine_evidence ===
+You review the physical evidence. The railing shows fresh scuff marks.
+The pavement is wet from the rain. No obvious weapons nearby.
+
++ [Scan the victim's echo] -> scan_victim
++ [Interview witnesses] -> interview_witnesses
+
+=== examine_scene ===
+You examine the scene physically. The drop is about 20 stories - fatal for sure.
+The crowd's energy is agitated. Corporate security looks tense.
+
++ [Scan the victim's echo] -> scan_victim
++ [Confront security about the push] -> confront_security
++ [Check for witnesses] -> interview_witnesses
+
+=== confront_security ===
+SECURITY GUARD: "I didn't push anyone! It was chaos out here!"
+SECURITY GUARD: "If anything, I was trying to pull people back from the edge."
+
+He seems defensive but credible.
+
+-> interview_witnesses
+
+=== interview_witnesses ===
+You have two key witnesses with conflicting stories.
+
++ [Interview James Rodriguez - claims it was an accident] -> witness_james
++ [Interview Sarah Kim - claims it was murder] -> witness_sarah
++ [Review security footage] -> security_footage
++ [I have enough evidence - make final report] -> final_report
+
+=== witness_james ===
+JAMES RODRIGUEZ: "I was right next to him. The pavement was wet from the rain."
+JAMES RODRIGUEZ: "He slipped, I'm sure of it. Just lost his footing near the edge."
+JAMES RODRIGUEZ: "Tragic accident. No one pushed him that I saw."
+
+Your scanner shows 85% neural coherence - high reliability.
+
++ [Note his credibility] -> witness_credible_james
++ [Press him for more details] -> witness_press_james
+
+=== witness_credible_james ===
+James appears to be telling the truth as he experienced it.
+You set witness_james_credible = true.
+-> after_witness
+
+=== witness_press_james ===
+JAMES RODRIGUEZ: "Look, I don't want trouble. I saw what I saw - it was an accident!"
+He becomes defensive but doesn't change his story.
+-> after_witness
+
+=== witness_sarah ===
+SARAH KIM: "I saw everything! The corporate security guard pushed him!"
+SARAH KIM: "Number 247, I remember the badge. He made eye contact first, then shoved."
+SARAH KIM: "This was murder! They're silencing dissent!"
+
+Your scanner shows 60% neural coherence - moderate reliability, high emotional interference.
+
++ [She seems genuinely convinced] -> witness_believable_sarah
++ [The emotional state might distort memory] -> witness_emotional_sarah
+
+=== witness_believable_sarah ===
+Her conviction is powerful, even if the data is somewhat compromised.
+You set witness_sarah_believable = true.
+-> after_witness
+
+=== witness_emotional_sarah ===
+Trauma can reshape memories. Proceed with caution.
+-> after_witness
+
+=== security_footage ===
+SECURITY FOOTAGE: "Camera 47-B: Protest crowd at balcony area."
+SECURITY FOOTAGE: "Subject Alex Chen visible near railing. Crowd surge occurs."
+SECURITY FOOTAGE: "Partial obstruction - corporate guard visible in periphery."
+SECURITY FOOTAGE: "Chen goes over railing. Guard's arm movements ambiguous."
+
+The footage is inconclusive. Guard's actions could be interpreted either way.
+
++ [Enhance with ethics bypass for clearer image] -> bypass_ethics
++ [Accept the ambiguous footage] -> after_security_footage
+
+=== bypass_ethics ===
+WARNING: Ethics protocols prohibit neural deep-scan without warrant.
+This could damage your standing with oversight committees.
+
++ [Proceed with bypass] -> perform_bypass
++ [Abort enhancement] -> after_security_footage
+
+=== perform_bypass ===
+You override the safety protocols. The scanner digs deeper...
+
+ENHANCED FOOTAGE: Guard's hand makes clear contact with Chen's back.
+But wait - was it a push or an attempt to grab him from falling?
+
+You set ethics_bypassed = true.
+
++ [Definitely a push] -> confirmed_push
++ [Attempted rescue] -> attempted_rescue
+
+=== confirmed_push ===
+The evidence now clearly shows intentional force applied.
+-> after_security_footage
+
+=== attempted_rescue ===
+The guard was trying to save him, but failed.
+-> after_security_footage
+
+=== after_security_footage ===
+-> interview_witnesses
+
+=== after_witness ===
+-> interview_witnesses
+
+=== final_report ===
+CAPTAIN REYES: "Time's up, Agent. The media is circling. What's your verdict?"
+
++ [ACCIDENT: Slipped in crowd chaos] -> submit_accident
++ [MURDER: Pushed by security] -> submit_murder
++ [SUICIDE: Intentional jump] -> submit_suicide
++ [INCONCLUSIVE: Need more time] -> request_extension
+
+=== submit_accident ===
+You file the report: Death by misadventure.
+
+CAPTAIN REYES: "Corporate will be relieved. The family won't be happy though."
+-> case1_conclusion
+
+=== submit_murder ===
+You file the report: Homicide by security personnel.
+
+CAPTAIN REYES: "Bold move. This will cause waves at headquarters."
+-> case1_conclusion
+
+=== submit_suicide ===
+You file the report: Intentional self-termination.
+
+CAPTAIN REYES: "Really? That's... unexpected. The data supports this?"
+-> case1_conclusion
+
+=== request_extension ===
+CAPTAIN REYES: "No can do. The mayor wants answers now. Make the call."
+-> final_report
+
+=== case1_conclusion ===
+Your report is sealed and transmitted. The echo fades around you.
+
+The truth is whatever you wrote in that report.
+
+-> END
+}
